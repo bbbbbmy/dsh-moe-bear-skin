@@ -2,6 +2,10 @@
 node_modules/
 pnpm-lock.yaml
 
+# python cache
+__pycache__/
+*.pyc
+
 # runtime diagnostics
 .boot.log
 *.log
