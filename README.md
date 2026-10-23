@@ -2,9 +2,14 @@
 
 自嘲熊动态壁纸皮肤，为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）桌面版 / Web 版准备的整屏壁纸皮肤。
 
+![效果预览](docs/preview.png)
+
+> 上图由 `tools/make-preview.py` 用壁纸封面合成，**不含任何真实会话内容**；动态示意见 [docs/preview.gif](docs/preview.gif)。
+> 演示用的水面壁纸来自社区（哲风壁纸），仅作效果展示，仓库不随包分发该素材。
+
 - **整屏壁纸**：全窗口底层放一段循环视频（`<video autoplay muted loop playsinline>`，`position: fixed; z-index: -2; object-fit: cover`），侧栏、顶栏、右栏、底部输入区全部透明，壁纸从窗口最上沿铺到最下沿。
 - **零依赖、零构建**：没有 React，没有打包步骤。`lib/client.js` 就是最终可执行的浏览器 bundle，`git clone` 完即可用。
-- **自带兜底**：没有壁纸文件时用内置 SVG 小熊（呼吸 + 眨眼），窗口不会白屏。
+- **不会乱跳兜底**：`svgFallback` 默认 `false`——取不到素材时宁可留空，也不突然变成卡通熊；想开内置 SVG 小熊（呼吸 + 眨眼）就改回 `true`。
 - **毛玻璃只留一处**：输入框。侧栏/顶栏默认纯透明，可一键改回磨砂。
 - **主题令牌**：浅色主色 `#7EB8C9`（雾蓝），深色 `#9CC2A8`（灰绿），通过 `ctx.theme.overrideTokens` 注入，跟随深/浅色切换。
 
@@ -47,6 +52,7 @@ dsh plugin --profile desktop add link:/path/to/dsh-moe-bear-skin
 | `wallpaperFile` | `'bear-loop-2k.mp4'` | assets/ 里的文件名，见下方 |
 | `wallpaperFallbacks` | `['bear-loop.mp4', 'bear-loop.webm']` | 上面那个找不到时依次尝试 |
 | `wallpaperPoster` | `'bear-cover.webp'` | 视频起播前的首帧占位 |
+| `svgFallback` | `false` | 素材取不到时是否退回内置 SVG 小熊（`false` = 留空，不显示卡通熊） |
 | `pauseWhenHidden` | `true` | 窗口不可见时暂停解码（省电） |
 | `respectReducedMotion` | `true` | 系统开了「减少动态效果」时只显示静帧 |
 | `portraitFile` | `''` | 立绘文件名；留空用内置线稿熊 |
@@ -119,6 +125,14 @@ Harness 改版时大概率只需要动这几个选择器。
 ```sh
 dsh plugin --profile desktop remove dsh-moe-bear-skin
 ```
+
+## 重新生成效果图
+
+```sh
+python tools/make-preview.py      # 需要 Pillow，输出 docs/preview.png 与 docs/preview.gif
+```
+
+预览是**合成示意图**：把壁纸封面当背景，按皮肤的真实样式叠加顶栏/侧栏/气泡/毛玻璃输入框，因此不会拍到任何人的会话内容。
 
 ## License
 
