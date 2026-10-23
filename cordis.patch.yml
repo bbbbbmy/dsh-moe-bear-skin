@@ -1,0 +1,16 @@
+# dsh-moe-bear-skin bundle patch: inserts one loader row into any profile that
+# lists this package in `dsh.profile.bundles`.
+#
+# The host half only serves ./assets over HTTP; the browser half (lib/client.js,
+# declared through `dsh.client`) does all of the styling. Override any key by
+# adding a later row with the same id in the profile's cordis.patch.yml:
+#
+#   - id: moe-bear-skin
+#     config:
+#       route: /moe-bear/assets/
+
+- insert:
+    - id: moe-bear-skin
+      name: 'dsh-moe-bear-skin'
+      config:
+        route: /moe-bear/assets/

@@ -1,0 +1,54 @@
+{
+  "name": "dsh-moe-bear-skin",
+  "version": "0.1.0",
+  "description": "自嘲熊动态壁纸皮肤 for DeepSeek Harness — looping wallpaper behind a fully transparent shell, glass input, breathing bear. No React, no build step.",
+  "type": "module",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./client": "./lib/client.js",
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib/index.js",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "assets",
+    "tools",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "dsh",
+    "dsh-plugin",
+    "deepseek-harness",
+    "skin",
+    "theme",
+    "wallpaper"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bbbbbmy/dsh-moe-bear-skin.git"
+  },
+  "homepage": "https://github.com/bbbbbmy/dsh-moe-bear-skin#readme",
+  "bugs": {
+    "url": "https://github.com/bbbbbmy/dsh-moe-bear-skin/issues"
+  },
+  "author": "bbbbbmy",
+  "dsh": {
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-theme"
+      ]
+    },
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,27 @@
+# dependencies / build output
+node_modules/
+pnpm-lock.yaml
+
+# runtime diagnostics
+.boot.log
+*.log
+
+# wallpaper media: put your own files in assets/ (see assets/README.md).
+# They are deliberately not committed — the plugin works without them.
+assets/*.mp4
+assets/*.webm
+assets/*.gif
+assets/*.apng
+assets/*.jpg
+assets/*.jpeg
+assets/*.png
+assets/*.webp
+assets/*.avif
+!assets/README.md
+
+# os / editor noise
+.DS_Store
+Thumbs.db
+desktop.ini
+.idea/
+.vscode/
