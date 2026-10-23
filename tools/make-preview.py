@@ -151,8 +151,9 @@ def paint_ui(size, scale: float = 1.0) -> Image.Image:
     return ui
 
 
-def compose(width: int, height: int, zoom: float = 1.0) -> Image.Image:
-    canvas = backdrop(width, height, zoom).convert("RGBA")
+def render(base: Image.Image, width: int, height: int) -> Image.Image:
+    """Chrome over one wallpaper still — the reusable half of compose()."""
+    canvas = base.convert("RGBA")
     scale = width / W
     box = (
         (width - round(COMPOSER_W * scale)) // 2,
@@ -163,6 +164,10 @@ def compose(width: int, height: int, zoom: float = 1.0) -> Image.Image:
     frosted_rect(canvas, box, round(24 * scale))
     canvas.alpha_composite(paint_ui(canvas.size, scale))
     return canvas.convert("RGB")
+
+
+def compose(width: int, height: int, zoom: float = 1.0) -> Image.Image:
+    return render(backdrop(width, height, zoom), width, height)
 
 
 def main() -> None:

@@ -2,16 +2,34 @@
 
 自嘲熊动态壁纸皮肤，为 [DeepSeek Harness](https://github.com/deepseek-ai/deepseek-harness)（DSH）桌面版 / Web 版准备的整屏壁纸皮肤。
 
-![效果预览](docs/preview.png)
+[![release](https://img.shields.io/github/v/release/bbbbbmy/dsh-moe-bear-skin?color=7EB8C9)](https://github.com/bbbbbmy/dsh-moe-bear-skin/releases)
+[![license](https://img.shields.io/github/license/bbbbbmy/dsh-moe-bear-skin?color=9CC2A8)](LICENSE)
 
-> 上图由 `tools/make-preview.py` 用它自带的默认壁纸合成，**不含任何真实会话内容**；动态示意见 [docs/preview.gif](docs/preview.gif)。
+![效果预览（默认 · 落叶动效）](docs/preview.png)
 
-- **开箱就有动态效果**：默认壁纸是本项目原创的「落叶」动效（`assets/leaf-fall.webp`，1280×720 动图 WebP，260 KB，无缝循环），随包分发、MIT 授权，不需要你自己准备素材。
+> 以上都是 `tools/` 下脚本合成的示意图，**不含任何真实会话内容**；动态示意见 [docs/preview.gif](docs/preview.gif)。
+
+- **开箱就有动态效果**：默认壁纸是本项目原创的「落叶」动效（`assets/leaf-fall.webp`，1280×720 动图 WebP，约 310 KB，无缝循环），随包分发、MIT 授权，不需要你自己准备素材。
 - **整屏壁纸**：全窗口底层放一张动图或循环视频（`<video autoplay muted loop playsinline>`，`position: fixed; z-index: -2; object-fit: cover`），侧栏、顶栏、右栏、底部输入区全部透明，壁纸从窗口最上沿铺到最下沿。
 - **零依赖、零构建**：没有 React，没有打包步骤。`lib/client.js` 就是最终可执行的浏览器 bundle，`git clone` 完即可用。
 - **不会乱跳兜底**：`svgFallback` 默认 `false`——取不到素材时宁可留空，也不突然变成卡通熊；想开内置 SVG 小熊（呼吸 + 眨眼）就把 `wallpaper` 改成 `'bear'`。
 - **毛玻璃只留一处**：输入框。侧栏/顶栏默认纯透明，可一键改回磨砂。
 - **主题令牌**：浅色主色 `#7EB8C9`（雾蓝），深色 `#9CC2A8`（灰绿），通过 `ctx.theme.overrideTokens` 注入，跟随深/浅色切换。
+
+## 更多效果
+
+![四种场景：默认落叶 / 内置自嘲熊 / 深色模式 / 自定义壁纸](docs/preview-gallery.png)
+
+| 场景 | 怎么得到 |
+|---|---|
+| **默认 · 落叶动效** | 不用改任何东西（`wallpaper: 'image'`，壁纸随包自带） |
+| **内置自嘲熊** | `wallpaper: 'bear'` —— 不需要 `assets/`，SVG 小熊会呼吸和眨眼 |
+| **深色模式** | 设置里切深色：壁纸自动压暗，主色换成 `#9CC2A8`，文字转浅色 |
+| **自定义壁纸** | 把 mp4 / webp / gif 丢进 `assets/`，`wallpaper: 'video'` 或 `'image'` |
+
+再放一张夜景极光的示意图（同样是 `wallpaper: 'image'` 换成自己的图就能得到）：
+
+![极光夜景示例](docs/preview-aurora.png)
 
 ```
 ┌───────────────────────────────────────────────┐
@@ -141,9 +159,20 @@ dsh plugin --profile desktop remove dsh-moe-bear-skin
 python tools/make-preview.py                     # 默认用 assets/leaf-fall-poster.webp，浅色主题
 python tools/make-preview.py my-own.webp         # 换一张底图
 python tools/make-preview.py --dark              # 深色主题（壁纸压暗 + 浅色文字）
+
+python tools/make-gallery.py                     # 四宫格 + 极光示例（场景全部由脚本绘制）
 ```
 
-输出 `docs/preview.png`（1600×900）与 `docs/preview.gif`（800×450 推镜循环）。预览是**合成示意图**：把壁纸当背景，按皮肤的真实样式叠加顶栏/侧栏/气泡/毛玻璃输入框，因此不会拍到任何人的会话内容。
+输出：
+
+| 文件 | 内容 |
+|---|---|
+| `docs/preview.png` | 1600×900，默认壁纸 + 浅色主题 |
+| `docs/preview.gif` | 800×450，16 帧推镜循环 |
+| `docs/preview-gallery.png` | 1600×972，四种场景 + 每格的 CONFIG 说明 |
+| `docs/preview-aurora.png` | 1600×900，夜景极光（自定义壁纸示例） |
+
+预览都是**合成示意图**：把壁纸当背景，按皮肤的真实样式叠加顶栏/侧栏/气泡/毛玻璃输入框，因此不会拍到任何人的会话内容。四宫格里的「内置自嘲熊」是用 Pillow 复刻 `WALLPAPER_SVG` 的同一套几何与配色，不是截屏。
 
 ## License
 
