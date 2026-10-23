@@ -48,7 +48,7 @@ dsh plugin --profile desktop add link:/path/to/dsh-moe-bear-skin
 
 | 键 | 默认 | 说明 |
 |---|---|---|
-| `wallpaper` | `'video'` | `'video'` / `'gif'` / `'bear'`（用内置 SVG 小熊） |
+| `wallpaper` | `'bear'` | `'bear'`（内置 SVG 小熊，克隆即可见）/ `'video'` / `'gif'` |
 | `wallpaperFile` | `'bear-loop-2k.mp4'` | assets/ 里的文件名，见下方 |
 | `wallpaperFallbacks` | `['bear-loop.mp4', 'bear-loop.webm']` | 上面那个找不到时依次尝试 |
 | `wallpaperPoster` | `'bear-cover.webp'` | 视频起播前的首帧占位 |
@@ -67,7 +67,7 @@ dsh plugin --profile desktop add link:/path/to/dsh-moe-bear-skin
 
 ## 换成你自己的壁纸
 
-仓库**不包含**任何第三方壁纸（见 [assets/README.md](assets/README.md)），所以克隆下来默认是内置 SVG 小熊。换成视频：
+仓库**不包含**任何第三方壁纸（见 [assets/README.md](assets/README.md)），所以克隆下来默认 `wallpaper: 'bear'`，看到的是内置 SVG 小熊（呼吸 + 眨眼）。换成视频只要两步：
 
 1. 把文件放进 `assets/`：
 
@@ -77,7 +77,7 @@ dsh plugin --profile desktop add link:/path/to/dsh-moe-bear-skin
    assets/bear-standing.png  立绘（透明 PNG 最佳，可省）
    ```
 
-2. 文件名不是默认值时，改 `CONFIG.wallpaperFile`（或加进 `wallpaperFallbacks`）。
+2. 把 `CONFIG.wallpaper` 从 `'bear'` 改成 `'video'`（或用 GIF 就填 `'gif'`）；文件名不是默认值时再改 `CONFIG.wallpaperFile`（或加进 `wallpaperFallbacks`）。
 
 3. 重启 Harness。
 
