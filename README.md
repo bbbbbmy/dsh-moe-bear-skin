@@ -18,18 +18,22 @@
 
 ## 更多效果
 
-![四种场景：默认落叶 / 内置自嘲熊 / 深色模式 / 自定义壁纸](docs/preview-gallery.png)
+![四种壁纸示例：毛毡黑猫 / 草地野餐 / 报纸房间 / 花瓣少女](docs/preview-gallery.webp)
 
-| 场景 | 怎么得到 |
+| 示例壁纸 | 说明 |
 |---|---|
-| **默认 · 落叶动效** | 不用改任何东西（`wallpaper: 'image'`，壁纸随包自带） |
-| **内置自嘲熊** | `wallpaper: 'bear'` —— 不需要 `assets/`，SVG 小熊会呼吸和眨眼 |
-| **深色模式** | 设置里切深色：壁纸自动压暗，主色换成 `#9CC2A8`，文字转浅色 |
-| **自定义壁纸** | 把 mp4 / webp / gif 丢进 `assets/`，`wallpaper: 'video'` 或 `'image'` |
+| **毛毡黑猫** | 亮色壁纸，浅色主题；侧栏顶栏完全透明，壁纸透到每一处 |
+| **草地野餐** | 亮色壁纸，浅色主题；正文气泡几乎无底色，靠毛玻璃输入框收住视线 |
+| **报纸房间** | 暗色壁纸自动配深色主题：壁纸压暗、文字转浅、主色换 `#9CC2A8` |
+| **花瓣少女** | 亮色壁纸 + 大量留白，适合把窗口当画框用 |
 
-再放一张夜景极光的示意图（同样是 `wallpaper: 'image'` 换成自己的图就能得到）：
+这四个只是示例：把任意 mp4 / webp / gif 放进 `assets/`，`wallpaper` 填 `'video'` 或 `'image'` 就能得到同样效果。深浅配色跟着 Harness 的外观设置走，不用改皮肤。
 
-![极光夜景示例](docs/preview-aurora.png)
+**零素材兜底**：`wallpaper: 'bear'` 时不需要 `assets/`，直接用内置 SVG 小熊（会呼吸、会眨眼）：
+
+![内置 SVG 熊](docs/preview-bear.webp)
+
+> 示例壁纸由使用者提供，仓库仅用于展示效果，不主张其版权；想要可自由分发的一套请看自带的 `assets/leaf-fall.webp`（原创，MIT）。
 
 ```
 ┌───────────────────────────────────────────────┐
@@ -160,7 +164,7 @@ python tools/make-preview.py                     # 默认用 assets/leaf-fall-po
 python tools/make-preview.py my-own.webp         # 换一张底图
 python tools/make-preview.py --dark              # 深色主题（壁纸压暗 + 浅色文字）
 
-python tools/make-gallery.py                     # 四宫格 + 极光示例（场景全部由脚本绘制）
+python tools/make-examples.py                    # 四宫格示例 + 内置熊，读 docs/examples/ 里的壁纸
 ```
 
 输出：
@@ -169,10 +173,11 @@ python tools/make-gallery.py                     # 四宫格 + 极光示例（�
 |---|---|
 | `docs/preview.png` | 1600×900，默认壁纸 + 浅色主题 |
 | `docs/preview.gif` | 800×450，16 帧推镜循环 |
-| `docs/preview-gallery.png` | 1600×972，四种场景 + 每格的 CONFIG 说明 |
-| `docs/preview-aurora.png` | 1600×900，夜景极光（自定义壁纸示例） |
+| `docs/preview-gallery.webp` | 1600×972，四张示例壁纸 + 每格标题/主题/渲染方式 |
+| `docs/preview-bear.webp` | 1600×900，`wallpaper: 'bear'` 的内置小熊 |
+| `docs/examples/wallpaper-*.webp` | 四张 1600×900 示例壁纸（生成四宫格用） |
 
-预览都是**合成示意图**：把壁纸当背景，按皮肤的真实样式叠加顶栏/侧栏/气泡/毛玻璃输入框，因此不会拍到任何人的会话内容。四宫格里的「内置自嘲熊」是用 Pillow 复刻 `WALLPAPER_SVG` 的同一套几何与配色，不是截屏。
+预览都是**合成示意图**：把壁纸当背景，按皮肤的真实样式叠加顶栏/侧栏/气泡/毛玻璃输入框，因此不会拍到任何人的会话内容。示例壁纸的深浅主题是按图片亮度自动选的（>0.55 走 light），和运行时切外观的行为一致；内置熊那张是用 Pillow 复刻 `WALLPAPER_SVG` 的同一套几何与配色，不是截屏。
 
 ## License
 
