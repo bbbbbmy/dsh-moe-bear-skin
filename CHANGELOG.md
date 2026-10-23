@@ -1,5 +1,21 @@
 # Changelog
 
+## v0.1.1 — 2026-10-23
+
+默认壁纸改成随包分发的原创动效，克隆下来就有动态效果，不再依赖用户自备素材。
+
+### 新增
+
+- **原创默认壁纸**：`assets/leaf-fall.webp`（1280×720，60 帧 @20fps，约 260 KB，动图 WebP）＋ `assets/leaf-fall-poster.webp` 首帧静图。柔和薄荷天空、三档景深的落叶飘落，循环精确无缝（每片叶子的下落距离与自转圈数是帧数整数倍）。
+- **`tools/make-wallpaper.py`**：用 Pillow 生成上面两个文件，改 `LEAF_COLORS` / `FRAMES` / `FPS` 即可换配色和节奏。
+- **`wallpaper: 'image'`**：新增取值（`'gif'` 保留为别名），用 assets/ 里的动图；`'bear'` / `'video'` 不变。
+- **预览改由默认壁纸合成**，并支持参数：`make-preview.py [底图] [--dark]`。
+
+### 变更
+
+- `.gitignore` 给 `leaf-fall*` 开白名单，其余图片/视频仍然不提交。
+- 文档：默认值、换素材步骤、落叶生成说明、`assets/README.md` 全部同步。
+
 ## v0.1.0 — 2026-10-23
 
 首个可用版本：把 DeepSeek Harness 的整个窗口交给一张循环壁纸。

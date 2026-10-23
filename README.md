@@ -4,12 +4,12 @@
 
 ![效果预览](docs/preview.png)
 
-> 上图由 `tools/make-preview.py` 用壁纸封面合成，**不含任何真实会话内容**；动态示意见 [docs/preview.gif](docs/preview.gif)。
-> 演示用的水面壁纸来自社区（哲风壁纸），仅作效果展示，仓库不随包分发该素材。
+> 上图由 `tools/make-preview.py` 用它自带的默认壁纸合成，**不含任何真实会话内容**；动态示意见 [docs/preview.gif](docs/preview.gif)。
 
-- **整屏壁纸**：全窗口底层放一段循环视频（`<video autoplay muted loop playsinline>`，`position: fixed; z-index: -2; object-fit: cover`），侧栏、顶栏、右栏、底部输入区全部透明，壁纸从窗口最上沿铺到最下沿。
+- **开箱就有动态效果**：默认壁纸是本项目原创的「落叶」动效（`assets/leaf-fall.webp`，1280×720 动图 WebP，260 KB，无缝循环），随包分发、MIT 授权，不需要你自己准备素材。
+- **整屏壁纸**：全窗口底层放一张动图或循环视频（`<video autoplay muted loop playsinline>`，`position: fixed; z-index: -2; object-fit: cover`），侧栏、顶栏、右栏、底部输入区全部透明，壁纸从窗口最上沿铺到最下沿。
 - **零依赖、零构建**：没有 React，没有打包步骤。`lib/client.js` 就是最终可执行的浏览器 bundle，`git clone` 完即可用。
-- **不会乱跳兜底**：`svgFallback` 默认 `false`——取不到素材时宁可留空，也不突然变成卡通熊；想开内置 SVG 小熊（呼吸 + 眨眼）就改回 `true`。
+- **不会乱跳兜底**：`svgFallback` 默认 `false`——取不到素材时宁可留空，也不突然变成卡通熊；想开内置 SVG 小熊（呼吸 + 眨眼）就把 `wallpaper` 改成 `'bear'`。
 - **毛玻璃只留一处**：输入框。侧栏/顶栏默认纯透明，可一键改回磨砂。
 - **主题令牌**：浅色主色 `#7EB8C9`（雾蓝），深色 `#9CC2A8`（灰绿），通过 `ctx.theme.overrideTokens` 注入，跟随深/浅色切换。
 
@@ -48,10 +48,10 @@ dsh plugin --profile desktop add link:/path/to/dsh-moe-bear-skin
 
 | 键 | 默认 | 说明 |
 |---|---|---|
-| `wallpaper` | `'bear'` | `'bear'`（内置 SVG 小熊，克隆即可见）/ `'video'` / `'gif'` |
-| `wallpaperFile` | `'bear-loop-2k.mp4'` | assets/ 里的文件名，见下方 |
+| `wallpaper` | `'image'` | `'image'`（含 `'gif'` 别名：用 assets/ 里的动图）/ `'video'` / `'bear'`（内置 SVG 小熊） |
+| `wallpaperFile` | `'leaf-fall.webp'` | assets/ 里的文件名 |
 | `wallpaperFallbacks` | `['bear-loop.mp4', 'bear-loop.webm']` | 上面那个找不到时依次尝试 |
-| `wallpaperPoster` | `'bear-cover.webp'` | 视频起播前的首帧占位 |
+| `wallpaperPoster` | `'leaf-fall-poster.webp'` | 动图/视频起播前的首帧占位 |
 | `svgFallback` | `false` | 素材取不到时是否退回内置 SVG 小熊（`false` = 留空，不显示卡通熊） |
 | `pauseWhenHidden` | `true` | 窗口不可见时暂停解码（省电） |
 | `respectReducedMotion` | `true` | 系统开了「减少动态效果」时只显示静帧 |
@@ -67,29 +67,38 @@ dsh plugin --profile desktop add link:/path/to/dsh-moe-bear-skin
 
 ## 换成你自己的壁纸
 
-仓库**不包含**任何第三方壁纸（见 [assets/README.md](assets/README.md)），所以克隆下来默认 `wallpaper: 'bear'`，看到的是内置 SVG 小熊（呼吸 + 眨眼）。换成视频只要两步：
+默认是随包分发的原创落叶动效（`assets/leaf-fall.webp`），想换就两步：
 
-1. 把文件放进 `assets/`：
+1. 把你的文件放进 `assets/`：
 
    ```
-   assets/bear-loop.mp4      循环背景（WebM 体积更小，也支持 .webm/.gif）
-   assets/bear-cover.webp    首帧占位（可省，省了就用视频第一帧）
-   assets/bear-standing.png  立绘（透明 PNG 最佳，可省）
+   assets/my-loop.mp4        循环视频（WebM 体积更小）
+   assets/my-loop.webp      动图 WebP / GIF / APNG 都行（动图走 'image'）
+   assets/my-poster.webp     首帧占位（可省）
+   assets/my-bear.png        立绘（透明 PNG 最佳，可省）
    ```
 
-2. 把 `CONFIG.wallpaper` 从 `'bear'` 改成 `'video'`（或用 GIF 就填 `'gif'`）；文件名不是默认值时再改 `CONFIG.wallpaperFile`（或加进 `wallpaperFallbacks`）。
+2. 改 `CONFIG`：动图填 `wallpaper: 'image'`；视频填 `wallpaper: 'video'`。文件名不是默认值时再改 `wallpaperFile`（或加进 `wallpaperFallbacks`）。
 
 3. 重启 Harness。
 
-`.mp4 / .webm / .gif / .png` 等二进制素材默认被 `.gitignore` 排除，不会被误提交。
+`.mp4 / .webm / .gif / .png` 等素材默认被 `.gitignore` 排除（只有自带的 `leaf-fall*` 例外），不会被误提交。
+
+### 重新生成默认的落叶动效
+
+```sh
+python tools/make-wallpaper.py     # 需要 Pillow，输出 assets/leaf-fall.webp + poster
+```
+
+循环是精确无缝的：每片叶子的下落距离与自转圈数是帧数的整数倍，横摆周期也整除帧数，所以首尾能接上。改 `LEAF_COLORS` / `FRAMES` / `FPS` 即可换配色和节奏。
 
 ### `file://` 外壳的特殊情况
 
-某些外壳用 `file://` 载入页面，此时浏览器取不到 `/moe-bear/assets/`，插件会退回内置 SVG。想让壁纸在那种外壳里也出现，可以把一段视频 **内联进 bundle**：
+某些外壳用 `file://` 载入页面，此时浏览器取不到 `/moe-bear/assets/`，插件会退回内置 SVG（或留空）。想让壁纸在那种外壳里也出现，可以把一段视频 **内联进 bundle**：
 
 ```sh
-node tools/inline-assets.mjs --file assets/bear-loop.mp4   # 生成 base64，client.js 会变大
-node tools/inline-assets.mjs --clear                        # 撤销
+node tools/inline-assets.mjs --file assets/my-loop.mp4   # 生成 base64，client.js 会变大
+node tools/inline-assets.mjs --clear                      # 撤销
 ```
 
 代价是 `lib/client.js` 会涨到十几 MB，所以默认不这么做。
@@ -129,11 +138,13 @@ dsh plugin --profile desktop remove dsh-moe-bear-skin
 ## 重新生成效果图
 
 ```sh
-python tools/make-preview.py      # 需要 Pillow，输出 docs/preview.png 与 docs/preview.gif
+python tools/make-preview.py                     # 默认用 assets/leaf-fall-poster.webp，浅色主题
+python tools/make-preview.py my-own.webp         # 换一张底图
+python tools/make-preview.py --dark              # 深色主题（壁纸压暗 + 浅色文字）
 ```
 
-预览是**合成示意图**：把壁纸封面当背景，按皮肤的真实样式叠加顶栏/侧栏/气泡/毛玻璃输入框，因此不会拍到任何人的会话内容。
+输出 `docs/preview.png`（1600×900）与 `docs/preview.gif`（800×450 推镜循环）。预览是**合成示意图**：把壁纸当背景，按皮肤的真实样式叠加顶栏/侧栏/气泡/毛玻璃输入框，因此不会拍到任何人的会话内容。
 
 ## License
 
-MIT（见 [LICENSE](LICENSE)）。内置小熊 SVG 为本项目原创；你自己放进 `assets/` 的素材版权归你。
+MIT（见 [LICENSE](LICENSE)）。内置的落叶动效（`assets/leaf-fall*`，由 `tools/make-wallpaper.py` 生成）与 SVG 小熊是本项目原创，可自由分发；你自己放进 `assets/` 的素材版权归你。

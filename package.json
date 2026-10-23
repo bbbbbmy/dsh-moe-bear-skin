@@ -1,7 +1,7 @@
 {
   "name": "dsh-moe-bear-skin",
-  "version": "0.1.0",
-  "description": "自嘲熊动态壁纸皮肤 for DeepSeek Harness — looping wallpaper behind a fully transparent shell, glass input, breathing bear. No React, no build step.",
+  "version": "0.1.1",
+  "description": "自嘲熊动态壁纸皮肤 for DeepSeek Harness — a looping wallpaper behind a fully transparent shell, glass input, original falling-leaves default. No React, no build step.",
   "type": "module",
   "main": "lib/index.js",
   "exports": {

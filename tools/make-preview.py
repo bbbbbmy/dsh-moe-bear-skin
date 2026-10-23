@@ -7,12 +7,13 @@ never contains anyone's real session content.
     python tools/make-preview.py     # -> docs/preview.png + docs/preview.gif
 """
 
+import sys
 from pathlib import Path
 
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 ROOT = Path(__file__).resolve().parent.parent
-COVER = ROOT / "assets" / "bear-cover.webp"
+DEFAULT_SOURCE = ROOT / "assets" / "leaf-fall-poster.webp"
 DOCS = ROOT / "docs"
 FONT = "C:/Windows/Fonts/msyh.ttc"
 FONT_BOLD = "C:/Windows/Fonts/msyhbd.ttc"
@@ -21,24 +22,49 @@ W, H = 1600, 900
 SIDEBAR = 264
 COMPOSER_W, COMPOSER_H, COMPOSER_BOTTOM = 900, 96, 34
 
-# 深色主题预览：壁纸被压暗（皮肤在深色模式下的行为），文字才读得清。
-PALETTE = {
-    "scrim": 0.46,                       # body[data-ds-dark-theme] 的暗色压层
-    "text": (238, 246, 244, 245),
-    "text_dim": (222, 236, 232, 190),
-    "hover": (255, 255, 255, 34),
-    "bubble": (255, 255, 255, 34),
-    "bubble_user": (255, 255, 255, 58),
-    "composer": (255, 255, 255, 44),
-    "composer_tint": 50,
-    "border": (255, 255, 255, 120),
-    "shadow": (0, 0, 0, 150),
-    "accent": (126, 184, 201, 240),
+# 两套调色板：默认壁纸是浅色的落叶，浅色主题才还原实际观感；
+# --dark 会按深色模式压暗壁纸并改用浅色文字。
+PALETTES = {
+    "light": {
+        "scrim": 0.0,
+        "text": (26, 46, 50, 246),
+        "text_dim": (36, 60, 64, 200),
+        "hover": (255, 255, 255, 96),
+        "bubble": (255, 255, 255, 142),
+        "bubble_user": (255, 255, 255, 205),
+        "composer": (255, 255, 255, 112),
+        "composer_tint": 130,
+        "border": (255, 255, 255, 190),
+        "shadow": (255, 255, 255, 120),
+        "accent": (126, 184, 201, 240),
+    },
+    "dark": {
+        "scrim": 0.46,
+        "text": (238, 246, 244, 245),
+        "text_dim": (222, 236, 232, 190),
+        "hover": (255, 255, 255, 34),
+        "bubble": (255, 255, 255, 34),
+        "bubble_user": (255, 255, 255, 58),
+        "composer": (255, 255, 255, 44),
+        "composer_tint": 50,
+        "border": (255, 255, 255, 120),
+        "shadow": (0, 0, 0, 150),
+        "accent": (126, 184, 201, 240),
+    },
 }
+
+PALETTE = dict(PALETTES["light"])
 
 
 def font(size: int, bold: bool = False) -> ImageFont.FreeTypeFont:
     return ImageFont.truetype(FONT_BOLD if bold else FONT, size)
+
+
+def source_image() -> Path:
+    """Wallpaper still used for the mock-up: argv[1], else the shipped default."""
+    if len(sys.argv) > 1:
+        return Path(sys.argv[1]).resolve()
+    return DEFAULT_SOURCE
 
 
 def cover_resize(image: Image.Image, width: int, height: int) -> Image.Image:
@@ -51,7 +77,7 @@ def cover_resize(image: Image.Image, width: int, height: int) -> Image.Image:
 
 def backdrop(width: int, height: int, zoom: float = 1.0) -> Image.Image:
     """Wallpaper layer: cover-cropped, optionally zoomed (the GIF animates this)."""
-    base = cover_resize(Image.open(COVER).convert("RGB"), width, height)
+    base = cover_resize(Image.open(source_image()).convert("RGB"), width, height)
     if zoom != 1.0:
         crop_w, crop_h = round(width / zoom), round(height / zoom)
         left = (width - crop_w) // 2
@@ -140,7 +166,9 @@ def compose(width: int, height: int, zoom: float = 1.0) -> Image.Image:
 
 
 def main() -> None:
+    global PALETTE
     DOCS.mkdir(exist_ok=True)
+    PALETTE = dict(PALETTES["dark" if "--dark" in sys.argv else "light"])
 
     preview = compose(W, H)
     preview.save(DOCS / "preview.png", optimize=True)
